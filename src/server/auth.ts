@@ -5,9 +5,10 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
+import { compare } from "bcrypt";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -20,14 +21,14 @@ declare module "next-auth" {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+		//  role: Role;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+//   interface User {
+//     // ...other properties
+//     // role: UserRole;
+//   }
 }
 
 /**
@@ -36,21 +37,73 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  session: {
+		strategy: "jwt",
+	},
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+		session: ({ session, token }) => {
+			return {
+				...session,
+				user: {
+					...session.user,
+					id: token.id,
+					role: token.role,
+				},
+			};
+		},
+		jwt: ({ token, user }) => {
+			if (user) {
+				const u = user as unknown as any;
+				return {
+					...token,
+					id: u.id,
+					role: u.role,
+				};
+			}
+			return token;
+		},
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-    }),
+		CredentialsProvider({
+			name: "Credentials",
+			credentials: {
+				username: {
+					label: "Username",
+					type: "text",
+					placeholder: "jsmith",
+				},
+				password: { label: "Password", type: "password" },
+			},
+      async authorize(credentials) {
+				if (!credentials?.username || !credentials.password) {
+					return null;
+				}
+
+				const user = await prisma.user.findUnique({
+					where: {
+						name: credentials.username,
+					},
+				});
+
+				if (!user) {
+					return null;
+				}
+
+				const isPasswordValid = await compare(credentials.password, user.password);
+
+				if (!isPasswordValid) {
+					return null;
+				}
+
+				return {
+					id: user.id + "",
+					email: user.email,
+					name: user.name,
+					role: user.role,
+				};
+			},
+		}),
     /**
      * ...add more providers here.
      *
