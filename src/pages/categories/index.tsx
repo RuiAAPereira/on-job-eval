@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useSession } from "next-auth/react";
-import CategoriesList from "@/components/categories/CategoriesList";
-import CreateCategory from "@/components/categories/CreateCategory";
+import CategoriesTable from "@/components/categories/CategoriesTable";
+import AddCategory from "@/components/categories/AddCategory";
 
 export default function Categories() {
   const { data: sessionData } = useSession();
@@ -12,18 +12,28 @@ export default function Categories() {
         <meta name="description" content="Full stack todo app" />
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <main className="flex min-h-screen flex-col bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container flex flex-col px-4 py-16 ">
-          {sessionData && (
-            <div className="grid grid-cols-1 gap-4 md:gap-8">
-              <div className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 text-white">
-                <h3 className="text-xl font-bold">Categorias</h3>
-                <CategoriesList />
-                <CreateCategory />
-              </div>
-            </div>
-          )}
+      <main className="h-full">
+        <div className="bg-gray-600 px-8 py-4">
+          <h1 className="text-3xl font-bold text-white">Categorias</h1>
+          <p>
+            {sessionData && (
+              <span>
+                {sessionData.user?.name} - logado como{" "}
+                {sessionData.user?.role.toLowerCase()}
+              </span>
+            )}
+          </p>
         </div>
+        {sessionData && (
+          <div className="flex h-full flex-wrap gap-12 p-12">
+            <div className="max-w-md flex-auto">
+              <AddCategory />
+            </div>
+            <div className="grow">
+              <CategoriesTable />
+            </div>
+          </div>
+        )}
       </main>
     </>
   );

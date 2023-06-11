@@ -20,15 +20,16 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      role: string;
       // ...other properties
-		//  role: Role;
+      //  role: Role;
     } & DefaultSession["user"];
   }
 
-//   interface User {
-//     // ...other properties
-//     // role: UserRole;
-//   }
+  //   interface User {
+  //     // ...other properties
+  //     // role: UserRole;
+  //   }
 }
 
 /**
@@ -38,72 +39,75 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   session: {
-		strategy: "jwt",
-	},
+    strategy: "jwt",
+  },
   callbacks: {
-		session: ({ session, token }) => {
-			return {
-				...session,
-				user: {
-					...session.user,
-					id: token.id,
-					role: token.role,
-				},
-			};
-		},
-		jwt: ({ token, user }) => {
-			if (user) {
-				const u = user as unknown as any;
-				return {
-					...token,
-					id: u.id,
-					role: u.role,
-				};
-			}
-			return token;
-		},
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          role: token.role,
+        },
+      };
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        const u = user as unknown as any;
+        return {
+          ...token,
+          id: u.id,
+          role: u.role,
+        };
+      }
+      return token;
+    },
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-		CredentialsProvider({
-			name: "Credentials",
-			credentials: {
-				username: {
-					label: "Username",
-					type: "text",
-					placeholder: "jsmith",
-				},
-				password: { label: "Password", type: "password" },
-			},
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: {
+          label: "Username",
+          type: "text",
+          placeholder: "jsmith",
+        },
+        password: { label: "Password", type: "password" },
+      },
       async authorize(credentials) {
-				if (!credentials?.username || !credentials.password) {
-					return null;
-				}
+        if (!credentials?.username || !credentials.password) {
+          return null;
+        }
 
-				const user = await prisma.user.findUnique({
-					where: {
-						name: credentials.username,
-					},
-				});
+        const user = await prisma.user.findUnique({
+          where: {
+            name: credentials.username,
+          },
+        });
 
-				if (!user) {
-					return null;
-				}
+        if (!user) {
+          return null;
+        }
 
-				const isPasswordValid = await compare(credentials.password, user.password);
+        const isPasswordValid = await compare(
+          credentials.password,
+          user.password
+        );
 
-				if (!isPasswordValid) {
-					return null;
-				}
+        if (!isPasswordValid) {
+          return null;
+        }
 
-				return {
-					id: user.id + "",
-					email: user.email,
-					name: user.name,
-					role: user.role,
-				};
-			},
-		}),
+        return {
+          id: user.id + "",
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        };
+      },
+    }),
     /**
      * ...add more providers here.
      *

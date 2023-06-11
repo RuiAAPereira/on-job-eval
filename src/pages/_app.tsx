@@ -5,6 +5,7 @@ import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/layout/navbar";
+import { ThemeProvider } from "next-themes";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,9 +13,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-            <Navbar />
-      <Component {...pageProps} />
-      <Toaster />
+      <ThemeProvider attribute="class">
+        <Navbar />
+        <Component {...pageProps} />
+        <Toaster />
+      </ThemeProvider>
     </SessionProvider>
   );
 };

@@ -12,12 +12,12 @@ let user = {
 };
 
 const navigation = [
-	{ name: "Home", href: "/", current: true },
-	{ name: "Dashboard", href: "/dashboard", current: false },
-	{ name: "Team", href: "#", current: false },
-	{ name: "Projects", href: "#", current: false },
-	{ name: "Calendar", href: "#", current: false },
-	{ name: "Reports", href: "#", current: false },
+	{ name: "Home", href: "/", current: "" },
+	{ name: "Categorias", href: "/categories", current: "" },
+	{ name: "Perguntas", href: "/questions", current: "" },
+	{ name: "Projects", href: "#", current: "" },
+	{ name: "Calendar", href: "#", current: "" },
+	{ name: "Reports", href: "#", current: "" },
 ];
 
 let userNavigation = [
@@ -43,7 +43,7 @@ export default function Navbar() {
 	getUser();
 
 	return (
-		<Disclosure as="nav" className="bg-gray-800">
+		<Disclosure as="nav" className="bg-gray-900">
 			{({ open }) => (
 				<>
 					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

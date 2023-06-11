@@ -18,6 +18,22 @@ export const categoryRouter = createTRPCRouter({
     }));
   }),
 
+  // get all categories grouped by question
+  getAllGrouped: protectedProcedure.query(async ({ ctx }) => {
+    const categories = await ctx.prisma.category.findMany({
+      include: {
+        Question: true,
+      },
+    });
+
+    return categories.map(({ id, name, description, Question }) => ({
+      id,
+      name,
+      description,
+      questions: Question,
+    }));
+  }),
+
   create: protectedProcedure
     .input(categoryInputSchema)
     .mutation(async ({ ctx, input }) => {
@@ -29,9 +45,28 @@ export const categoryRouter = createTRPCRouter({
       });
     }),
 
+  update: protectedProcedure
+    .input(z.object({ id: z.string(), ...categoryInputSchema.shape }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.category.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          name: input.name,
+          description: input.description,
+        },
+      });
+    }),
+
   delete: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.question.deleteMany({
+        where: {
+          categoryId: input,
+        },
+      });
       return ctx.prisma.category.delete({
         where: {
           id: input,
