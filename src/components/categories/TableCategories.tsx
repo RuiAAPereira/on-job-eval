@@ -1,7 +1,7 @@
 import { api } from "@/utils/api";
 import Category from "./Category";
 
-export default function CategoriesTable() {
+export default function TableCategories() {
   const {
     data: categories,
     isLoading,

@@ -1,26 +1,25 @@
 import toast from "react-hot-toast";
-import type { Categories } from "@/types";
 import { api } from "@/utils/api";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import EditCategory from "./EditCategory";
+import { Questions } from "@/types";
 
-type CategoryProps = {
-  category: Categories;
+type QuestionProps = {
+  question: Questions;
 };
 
-export default function Category({ category }: CategoryProps) {
-  const { id, name, description } = category;
+export default function Question({ question }: QuestionProps) {
+  const { id, name, description } = question;
   const trpc = api.useContext();
 
-  const { mutate: deleteMutation } = api.category.delete.useMutation({
+  const { mutate: deleteMutation } = api.question.delete.useMutation({
     onMutate: async (deleteId) => {
-      await trpc.category.getAll.cancel();
+      await trpc.category.getAllWithQuestions.cancel();
 
-      const previousCategories = trpc.category.getAll.getData();
+      const previousCategories = trpc.category.getAllWithQuestions.getData();
 
-      trpc.category.getAll.setData(undefined, (prev) => {
+      trpc.category.getAllWithQuestions.setData(undefined, (prev) => {
         if (!prev) return previousCategories;
-        return prev.filter((category) => category.id !== deleteId);
+        return prev.filter((question) => question.id !== deleteId);
       });
 
       return { previousCategories };
@@ -28,17 +27,23 @@ export default function Category({ category }: CategoryProps) {
     onSuccess: () => {
       toast.success(`"${name}" apagada com sucesso!`);
     },
-    onError: (err, newCategory, ctx) => {
+    onError: (err, newQuestion, ctx) => {
       toast.error("Falha ao apagar a categoria");
-      trpc.category.getAll.setData(undefined, () => ctx?.previousCategories);
+      trpc.category.getAllWithQuestions.setData(
+        undefined,
+        () => ctx?.previousCategories
+      );
     },
     onSettled: async () => {
-      await trpc.category.getAll.invalidate();
+      await trpc.category.getAllWithQuestions.invalidate();
     },
   });
 
   return (
-    <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+    <tr
+      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+      key={`question-${id}`}
+    >
       <th
         scope="row"
         className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
@@ -53,7 +58,7 @@ export default function Category({ category }: CategoryProps) {
         )}
       </td>
       <td className="flex justify-end gap-2 whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-        <EditCategory id={id} name={name} description={description} />
+        {/* <EditQuestion id={id} name={name} description={description} /> */}
         <AlertDialog.Root>
           <AlertDialog.Trigger asChild>
             <button className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-blue-500 px-[15px] font-medium leading-none text-blue-100 hover:bg-blue-600 focus:outline-none">
@@ -70,8 +75,7 @@ export default function Category({ category }: CategoryProps) {
                 Esta ação não pode ser revertida.
                 <br />
                 <span>
-                  Todas as perguntas e respostas associadas a esta categoria
-                  serão apagadas.
+                  Esta pergunta e respostas associadas serão apagadas.
                 </span>
               </AlertDialog.Description>
               <div className="flex justify-end gap-[25px]">

@@ -25,7 +25,7 @@ const EditCategory = (data: {
       { name: catName },
       ctx: { previousCategories?: any[] } = {}
     ) => {
-      toast.error(err.message);
+      toast.error("Falha ao atualizar categoria");
       setName(catName);
       trpc.category.getAll.setData(undefined, () => ctx?.previousCategories);
     },

@@ -73,14 +73,14 @@ model Category {
 }
 
 model Question {
-  id           String   @id @default(cuid())
-  text         String
-  categoryId   String
-  category     Category @relation(fields: [categoryId], references: [id])
-  questionText String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  Answer       Answer[]
+  id          String   @id @default(cuid())
+  name        String
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Answer      Answer[]
 }
 
 model Evaluation {

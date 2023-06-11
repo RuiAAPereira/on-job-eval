@@ -16,12 +16,15 @@ export default function AddCategory() {
       { name: newCategoryName },
       ctx: { previousCategories?: any[] } = {}
     ) => {
-      toast.error("Failed to create category");
+      toast.error("Falha ao criar categoria");
       setNewCategoryName(newCategoryName);
       trpc.category.getAll.setData(undefined, () => ctx?.previousCategories);
     },
     onSettled: async () => {
       await trpc.category.getAll.invalidate();
+    },
+    onSuccess: () => {
+      toast.success("Categoria criada!");
     },
     onMutate: async ({
       name: newCategoryName,
@@ -66,7 +69,6 @@ export default function AddCategory() {
           name: newCategoryName,
           description: newCategoryDescription,
         });
-        toast.success("Categoria criada!");
       }}
     >
       <div className="space-y-12">
@@ -95,6 +97,7 @@ export default function AddCategory() {
                   id="new-category-name"
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
+                  required
                 />
               </div>
             </div>

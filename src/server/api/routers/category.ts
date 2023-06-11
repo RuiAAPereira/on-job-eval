@@ -18,8 +18,7 @@ export const categoryRouter = createTRPCRouter({
     }));
   }),
 
-  // get all categories grouped by question
-  getAllGrouped: protectedProcedure.query(async ({ ctx }) => {
+  getAllWithQuestions: protectedProcedure.query(async ({ ctx }) => {
     const categories = await ctx.prisma.category.findMany({
       include: {
         Question: true,
@@ -30,7 +29,11 @@ export const categoryRouter = createTRPCRouter({
       id,
       name,
       description,
-      questions: Question,
+      questions: Question.map(({ id, name, description }) => ({
+        id,
+        name,
+        description,
+      })),
     }));
   }),
 

@@ -16,7 +16,26 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <ThemeProvider attribute="class">
         <Navbar />
         <Component {...pageProps} />
-        <Toaster />
+        <Toaster
+          toastOptions={{
+            success: {
+              style: {
+                background: "#0ABF30",
+                border: "1px solid #34495E",
+                padding: "16px",
+                color: "#e0ddd5",
+              },
+            },
+            error: {
+              style: {
+                background: "#E24D4C",
+                border: "1px solid #34495E",
+                padding: "16px",
+                color: "#e0ddd5",
+              },
+            },
+          }}
+        />
       </ThemeProvider>
     </SessionProvider>
   );
