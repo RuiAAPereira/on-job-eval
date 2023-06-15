@@ -6,8 +6,8 @@ const navigation = [
 	{ name: "Home", href: "/", current: "" },
 	{ name: "Categorias", href: "/categories", current: "" },
 	{ name: "Perguntas", href: "/questions", current: "" },
-	{ name: "Projects", href: "#", current: "" },
-	{ name: "Calendar", href: "#", current: "" },
+	{ name: "Avaliação", href: "/evaluation", current: "" },
+	{ name: "Formandos", href: "/employees", current: "" },
 	{ name: "Reports", href: "#", current: "" },
 ];
 
