@@ -48,7 +48,16 @@ export const evaluationRouter = createTRPCRouter({
         },
         include: {
           employee: true,
-          Answer: true,
+          Answer: {
+            select: {
+              score: true,
+              question: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
 
@@ -63,9 +72,9 @@ export const evaluationRouter = createTRPCRouter({
           name: evaluation.employee.name,
           number: evaluation.employee.number,
         },
-        answers: evaluation.Answer.map(({ id, score }) => ({
-          id,
+        answers: evaluation.Answer.map(({ score, question }) => ({
           score,
+          question,
         })),
       };
     }),

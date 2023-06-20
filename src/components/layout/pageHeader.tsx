@@ -6,8 +6,8 @@ export default function PageHeader(pageTitle: string) {
   pageTitle = pageTitle;
 
   return (
-    <div className="bg-gray-600 px-8 py-4">
-      <h1 className="text-3xl font-bold text-white">{pageTitle}</h1>
+    <div>
+      <h1>{pageTitle}</h1>
       <p>
         {sessionData && (
           <span>

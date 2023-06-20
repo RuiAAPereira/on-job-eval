@@ -45,14 +45,8 @@ export default function Category({ category }: CategoryProps) {
       >
         {name}
       </th>
-      <td className="px-6 py-4">
-        {description ? (
-          description
-        ) : (
-          <span className="text-gray-400">Sem descrição</span>
-        )}
-      </td>
-      <td className="flex justify-end gap-2 whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+      <td>{description ? description : <span>Sem descrição</span>}</td>
+      <td>
         <EditCategory id={id} name={name} description={description} />
         <AlertDialog.Root>
           <AlertDialog.Trigger asChild>

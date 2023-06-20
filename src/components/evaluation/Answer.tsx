@@ -12,18 +12,17 @@ export default function Answer({ question, onChange }: QuestionProps) {
   const [newAnswer, setNewAnswer] = useState(1);
 
   return (
-    <div className="mt-10 flex flex-wrap gap-x-6 gap-y-8" key={id}>
-      <div className="grow">
-        <h3 className="text-sm font-medium leading-6 text-gray-400">
+    <div key={id}>
+      <div>
+        <h3>
           {name}
           <br />
           <span>{description}</span>
         </h3>
       </div>
-      <div className="grow-1">
+      <div>
         <input type="hidden" value={id} />
         <input
-          className="input justify-self-end"
           type="number"
           min={1}
           max={5}

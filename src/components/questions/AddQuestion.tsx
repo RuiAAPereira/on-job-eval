@@ -62,15 +62,11 @@ export default function AddQuestion() {
 
   if (categories?.length === 0) {
     return (
-      <div className="space-y-12">
+      <div>
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-300">
-            Perguntas
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-400">
-            Impossível criar perguntas sem existirem categorias
-          </p>
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+          <h2>Perguntas</h2>
+          <p>Impossível criar perguntas sem existirem categorias</p>
+          <div>
             <a
               className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               href={"/categories"}
@@ -103,23 +99,14 @@ export default function AddQuestion() {
           });
         }}
       >
-        <div className="space-y-12">
+        <div>
           <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-300">
-              Perguntas
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-400">
-              Criar nova pergunta
-            </p>
+            <h2>Perguntas</h2>
+            <p>Criar nova pergunta</p>
 
-            <div className="mt-10 gap-x-6 gap-y-8">
+            <div>
               <div className="sm:col-span-4">
-                <label
-                  htmlFor="categorias"
-                  className="block text-sm font-medium leading-6 text-gray-400"
-                >
-                  Selecionar Categoria:
-                </label>
+                <label htmlFor="categorias">Selecionar Categoria:</label>
 
                 <select
                   id="categorias"
@@ -143,15 +130,10 @@ export default function AddQuestion() {
               </div>
             </div>
 
-            <div className="mt-10 gap-x-6 gap-y-8">
+            <div>
               <div className="sm:col-span-4">
-                <label
-                  htmlFor="new-question-name"
-                  className="block text-sm font-medium leading-6 text-gray-400"
-                >
-                  Pergunta:
-                </label>
-                <div className="mt-2">
+                <label htmlFor="new-question-name">Pergunta:</label>
+                <div>
                   <input
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     placeholder="Nova pergunta..."
@@ -165,15 +147,10 @@ export default function AddQuestion() {
                 </div>
               </div>
             </div>
-            <div className="mt-10 gap-x-6 gap-y-8 ">
+            <div>
               <div className="sm:col-span-4">
-                <label
-                  htmlFor="new-question-description"
-                  className="block text-sm font-medium leading-6 text-gray-400"
-                >
-                  Descrição:
-                </label>
-                <div className="mt-2">
+                <label htmlFor="new-question-description">Descrição:</label>
+                <div>
                   <textarea
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     placeholder="Descrição..."
@@ -185,7 +162,7 @@ export default function AddQuestion() {
                 </div>
               </div>
             </div>
-            <div className="mt-6 flex items-center justify-end gap-x-6">
+            <div>
               <button className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 Gravar
               </button>

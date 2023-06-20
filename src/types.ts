@@ -35,7 +35,7 @@ export const questionName = z
     required_error: "Campo obrigatório",
   })
   .min(1, "Por favor, insira um nome para a categoria")
-  .max(50, "A categoria não pode ter mais de 50 caracteres");
+  .max(200, "A pergunta não pode ter mais de 200 caracteres");
 
 export const questionDescription = z
   .string()

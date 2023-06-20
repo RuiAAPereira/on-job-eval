@@ -45,10 +45,8 @@ export default function Category({ employee }: EmployeeProps) {
       >
         {name}
       </th>
-      <td className="px-6 py-4">
-        {number ? number : <span className="text-gray-400">Sem número</span>}
-      </td>
-      <td className="flex justify-end gap-2 whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+      <td>{number ? number : <span>Sem número</span>}</td>
+      <td>
         <a
           href={`/employees/${id}`}
           className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-blue-500 px-[15px] font-medium leading-none text-blue-100 hover:bg-blue-600 focus:outline-none"

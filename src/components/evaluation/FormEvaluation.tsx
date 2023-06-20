@@ -82,7 +82,6 @@ export default function FormEvaluation(props: FormEvaluationProps) {
 
   return (
     <form
-      className="w-full"
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
@@ -91,7 +90,7 @@ export default function FormEvaluation(props: FormEvaluationProps) {
       {categories && categories.length ? (
         categories?.map((c) => {
           return (
-            <div key={c.id} className="mt-10">
+            <div key={c.id}>
               <h2>{c.name}</h2>
 
               {c.questions.map((q) => {
@@ -109,15 +108,13 @@ export default function FormEvaluation(props: FormEvaluationProps) {
           );
         })
       ) : (
-        <div className="mt-10">
+        <div>
           <h2>Nenhuma pergunta encontrada</h2>
         </div>
       )}
-      <div className="mt-10 flex w-full flex-wrap gap-x-6 gap-y-8">
-        <div className="grow">
-          <button className="" type="submit">
-            Gravar
-          </button>
+      <div>
+        <div>
+          <button type="submit">Gravar</button>
         </div>
       </div>
     </form>

@@ -16,6 +16,10 @@ export default function Evaluation() {
     return <div>Error: {error.message}</div>;
   }
 
+  const count = evaluation?.answers.length ?? 0;
+  const sum = evaluation?.answers.reduce((a, b) => a + b.score, 0) ?? 0;
+  const average = (sum / count).toFixed(2);
+
   return (
     <>
       <Head>
@@ -24,11 +28,9 @@ export default function Evaluation() {
         <link rel="icon" href="public/favicon.ico" />
       </Head>
 
-      <main className="h-full">
-        <div className="bg-gray-600 px-8 py-4">
-          <h1 className="text-3xl font-bold text-white">
-            Avaliação de {evaluation?.employee?.name}
-          </h1>
+      <main>
+        <div>
+          <h1>Avaliação de {evaluation?.employee?.name}</h1>
           <p>
             {sessionData && (
               <span>
@@ -39,26 +41,22 @@ export default function Evaluation() {
           </p>
         </div>
 
-        <div className="h-full p-12">
+        <div>
           <div className="mx-auto max-w-4xl rounded-md bg-gray-300 px-4 py-8 md:bg-gray-800 lg:py-16">
             {evaluation && (
               <>
-                <div className="flex w-full flex-wrap gap-x-6 gap-y-8">
-                  <div className="grow">
-                    <div className="flex flex-wrap items-baseline justify-between">
-                      <label className="block text-sm font-medium leading-6 text-gray-400">
-                        Nome
-                      </label>
+                <div>
+                  <div>
+                    <div>
+                      <label>Nome</label>
                     </div>
-                    <p className="input">{evaluation.employee?.name}</p>
+                    <p>{evaluation.employee?.name}</p>
                   </div>
-                  <div className="grow">
-                    <div className="flex flex-wrap items-baseline justify-between">
-                      <label className="block text-sm font-medium leading-6 text-gray-400">
-                        Número
-                      </label>
+                  <div>
+                    <div>
+                      <label>Número</label>
                     </div>
-                    <p className="input">
+                    <p>
                       {evaluation.employee?.number
                         ? evaluation.employee.number
                         : 0}
@@ -66,6 +64,24 @@ export default function Evaluation() {
                   </div>
                 </div>
 
+                <h1>Média: {average}</h1>
+                {evaluation.answers.map((answer) => (
+                  <div>
+                    <div>
+                      <div>
+                        <label>Pergunta</label>
+                      </div>
+
+                      <p>{answer.question.name}</p>
+                    </div>
+                    <div>
+                      <div>
+                        <label>Resposta</label>
+                      </div>
+                      <p>{answer.score}</p>
+                    </div>
+                  </div>
+                ))}
               </>
             )}
           </div>

@@ -109,7 +109,6 @@ const EditEmployee = (data: {
                 Nome:
               </label>
               <input
-                className="input"
                 id="name"
                 value={newEmployeeName}
                 onChange={(e) => setName(e.target.value)}
@@ -117,15 +116,9 @@ const EditEmployee = (data: {
               />
             </fieldset>
             <fieldset className="mb-[15px] flex items-center gap-5">
-              <label
-                htmlFor="new-employee-description"
-                className="block text-sm font-medium leading-6 text-gray-400"
-              >
-                Número:
-              </label>
-              <div className="mt-2">
+              <label htmlFor="new-employee-description">Número:</label>
+              <div>
                 <input
-                  className="input"
                   placeholder="Número do formando..."
                   type="number"
                   name="new-employee-name"

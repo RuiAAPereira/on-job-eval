@@ -68,26 +68,16 @@ export default function AddEmployee() {
         });
       }}
     >
-      <div className="space-y-12">
+      <div>
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-300">
-            Formandos
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-400">
-            Criar novo formando
-          </p>
+          <h2>Formandos</h2>
+          <p>Criar novo formando</p>
 
-          <div className="mt-10 gap-x-6 gap-y-8">
+          <div>
             <div className="sm:col-span-4">
-              <label
-                htmlFor="new-employee-name"
-                className="block text-sm font-medium leading-6 text-gray-400"
-              >
-                Nome:
-              </label>
-              <div className="mt-2">
+              <label htmlFor="new-employee-name">Nome:</label>
+              <div>
                 <input
-                  className="input"
                   placeholder="Nome do formando..."
                   type="text"
                   name="new-employee-name"
@@ -99,17 +89,11 @@ export default function AddEmployee() {
               </div>
             </div>
           </div>
-          <div className="mt-10 gap-x-6 gap-y-8 ">
+          <div>
             <div className="sm:col-span-4">
-              <label
-                htmlFor="new-employee-description"
-                className="block text-sm font-medium leading-6 text-gray-400"
-              >
-                Número:
-              </label>
-              <div className="mt-2">
+              <label htmlFor="new-employee-description">Número:</label>
+              <div>
                 <input
-                  className="input"
                   placeholder="Número do formando..."
                   type="number"
                   name="new-employee-description"
@@ -122,7 +106,7 @@ export default function AddEmployee() {
               </div>
             </div>
           </div>
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+          <div>
             <button className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
               Gravar
             </button>

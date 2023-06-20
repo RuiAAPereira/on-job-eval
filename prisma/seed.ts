@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
+// import a json file with the data you want to seed
+import employeeData from "./seedData/employeeData.json"
 
 const prisma = new PrismaClient();
 
@@ -17,20 +19,24 @@ async function main() {
   });
   console.log({ user });
 
-//   const seedEmployees = () => {
-//     Promise.all(
-//       employeeData.map(async (employeeItem) => {
-//         const { name, number } = employeeItem;
-//         const response = await prisma.employee.upsert({
-//           name: name
-//           number: number || "default number",
-//         });
-//         return response;
-//       })
-//     );
-//   };
+  const seedEmployees = async () => {
+    await Promise.all(
+      employeeData.map(async (employeeItem) => {
+        const { name, number } = employeeItem;
+        const response = await prisma.employee.upsert({
+          where: { name },
+          create: {
+            name,
+            number
+          },
+          update: {},
+        });
+        return response;
+      })
+    );
+  };
 
-//   seedEmployees();
+  await seedEmployees();
 }
 main()
   .then(() => prisma.$disconnect())

@@ -12,9 +12,9 @@ export default function Categories() {
         <meta name="description" content="On job evaluation" />
         <link rel="shortcut icon" href="public/favicon.ico" />
       </Head>
-      <main className="h-full">
-        <div className="bg-gray-600 px-8 py-4">
-          <h1 className="text-3xl font-bold text-white">Categorias</h1>
+      <main>
+        <div>
+          <h1>Categorias</h1>
           <p>
             {sessionData && (
               <span>
@@ -25,11 +25,11 @@ export default function Categories() {
           </p>
         </div>
 
-        <div className="flex h-full flex-wrap gap-12 p-12">
-          <div className="max-w-md flex-auto">
+        <div>
+          <div>
             <AddCategory />
           </div>
-          <div className="grow">
+          <div>
             <CategoriesTable />
           </div>
         </div>

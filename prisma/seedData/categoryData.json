@@ -1,0 +1,63 @@
+[
+  {
+    "name": "Imagem/Apresentação",
+    "description": "Imagem/Apresentação"
+  },
+  {
+    "name": "Atendimento ao Cliente",
+    "description": "Atendimento ao Cliente"
+  },
+  {
+    "name": "Imagem/Apresentação",
+    "description": "Imagem/Apresentação"
+  },
+  {
+    "name": "Procedimentos de Safety",
+    "description": "Procedimentos de Safety"
+  },
+  {
+    "name": "Procedimentos de Security",
+    "description": "Procedimentos de Security"
+  },
+  {
+    "name": "Pontualidade",
+    "description": "Pontualidade"
+  },
+  {
+    "name": "Assiduidade",
+    "description": "Assiduidade"
+  },
+
+  {
+    "name": "Flexibilidade",
+    "description": "Flexibilidade"
+  },
+  {
+    "name": "Trabalho em equipa",
+    "description": "Trabalho em equipa"
+  },
+  {
+    "name": "Responsabilidade",
+    "description": "Responsabilidade"
+  },
+  {
+    "name": "Procedimentos com PMR",
+    "description": "Procedimentos com PMR"
+  },
+  {
+    "name": "Procedimentos de controlo de segurança",
+    "description": "Procedimentos de controlo de segurança"
+  },
+  {
+    "name": "Procedimentos durante a assistência",
+    "description": "Procedimentos durante a assistência"
+  },
+  {
+    "name": "Técnicas de assistência",
+    "description": "Técnicas de assistência"
+  },
+  {
+    "name": "Conhecimento da Função",
+    "description": "Conhecimento da Função"
+  }
+]
