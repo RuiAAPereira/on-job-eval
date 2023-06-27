@@ -29,6 +29,27 @@ export default function FormEvaluation(props: FormEvaluationProps) {
     }
   }, [categories]);
 
+  const { mutateAsync: addEvaluation } = api.evaluation.create.useMutation({
+    onSuccess: async (data) => {
+      const answersArray = Object.entries(answers).map(
+        ([questionId, score]) => ({
+          questionId,
+          score,
+        })
+      );
+
+      for (const answer of answersArray) {
+        addAnswer({
+          evaluationId: data.id,
+          questionId: answer.questionId,
+          score: answer.score,
+        });
+      }
+
+      router.push("/employees/" + props.employeeId + "/details");
+    },
+  });
+
   const handleSubmit = async () => {
     try {
       await addEvaluation({
@@ -39,29 +60,7 @@ export default function FormEvaluation(props: FormEvaluationProps) {
       toast.error("Erro ao salvar avaliação");
     }
   };
-
   const router = useRouter();
-
-  const { mutate: addEvaluation } = api.evaluation.create.useMutation({
-    onSuccess: async (data) => {
-      const answersArray = Object.entries(answers).map(
-        ([questionId, score]) => ({
-          questionId,
-          score,
-        })
-      );
-
-      for (const answer of answersArray) {
-        await addAnswer({
-          evaluationId: data.id,
-          questionId: answer.questionId,
-          score: answer.score,
-        });
-      }
-
-      router.push("/employees/" + props.employeeId + "/details");
-    },
-  });
 
   const { mutate: addAnswer } = api.answer.create.useMutation();
 
