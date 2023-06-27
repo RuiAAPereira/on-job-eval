@@ -59,14 +59,34 @@ export default function FormEvaluation(props: FormEvaluationProps) {
 
   const handleSubmit = async () => {
     try {
-      await addEvaluation({
+      const data = await addEvaluation({
         employeeId: props.employeeId,
       });
+
+      const answersArray = Object.entries(answers).map(
+        ([questionId, score]) => ({
+          questionId,
+          score,
+        })
+      );
+
+      const promises = answersArray.map((answer) =>
+        addAnswer({
+          evaluationId: data.id,
+          questionId: answer.questionId,
+          score: answer.score,
+        })
+      );
+
+      await Promise.all(promises);
+      await router.push("/employees/" + props.employeeId + "/details");
     } catch (err) {
       console.error(err);
       toast.error("Erro ao salvar avaliação");
     }
   };
+
+
   const router = useRouter();
 
   const { mutate: addAnswer } = api.answer.create.useMutation();
