@@ -38,13 +38,15 @@ export default function FormEvaluation(props: FormEvaluationProps) {
         })
       );
 
-      for (const answer of answersArray) {
+      const promises = answersArray.map((answer) =>
         addAnswer({
           evaluationId: data.id,
           questionId: answer.questionId,
           score: answer.score,
-        });
-      }
+        })
+      );
+
+      await Promise.all(promises);
 
       router.push("/employees/" + props.employeeId + "/details");
     },
