@@ -46,9 +46,14 @@ export default function FormEvaluation(props: FormEvaluationProps) {
         })
       );
 
-      await Promise.all(promises);
-
-      router.push("/employees/" + props.employeeId + "/details");
+      await Promise.all(promises)
+        .then(() => {
+          router.push("/employees/" + props.employeeId + "/details");
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Erro ao salvar respostas");
+        });
     },
   });
 
