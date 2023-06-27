@@ -19,7 +19,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const navbar = () => {
+export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -140,6 +140,4 @@ const navbar = () => {
       </div>
     </nav>
   );
-};
-
-export default navbar;
+}

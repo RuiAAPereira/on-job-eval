@@ -31,7 +31,7 @@ export default function FormEvaluation(props: FormEvaluationProps) {
 
   const handleSubmit = async () => {
     try {
-      addEvaluation({
+      await addEvaluation({
         employeeId: props.employeeId,
       });
     } catch (err) {
@@ -43,7 +43,7 @@ export default function FormEvaluation(props: FormEvaluationProps) {
   const router = useRouter();
 
   const { mutate: addEvaluation } = api.evaluation.create.useMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const answersArray = Object.entries(answers).map(
         ([questionId, score]) => ({
           questionId,
@@ -51,13 +51,13 @@ export default function FormEvaluation(props: FormEvaluationProps) {
         })
       );
 
-      answersArray.forEach((answer) => {
-        addAnswer({
+      for (const answer of answersArray) {
+        await addAnswer({
           evaluationId: data.id,
           questionId: answer.questionId,
           score: answer.score,
         });
-      });
+      }
 
       router.push("/employees/" + props.employeeId + "/details");
     },

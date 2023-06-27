@@ -65,8 +65,8 @@ export default function Evaluation() {
                 </div>
 
                 <h1>Média: {average}</h1>
-                {evaluation.answers.map((answer) => (
-                  <div>
+                {evaluation.answers.map((answer, index) => (
+                  <div key={index}>
                     <div>
                       <div>
                         <label>Pergunta</label>

@@ -27,7 +27,7 @@ export const employeeRouter = createTRPCRouter({
       throw new Error("Input value is undefined or null");
     }
 
-    const employee = ctx.prisma.employee.findFirst({
+    const employee = await ctx.prisma.employee.findFirst({
       where: {
         id: input,
       },

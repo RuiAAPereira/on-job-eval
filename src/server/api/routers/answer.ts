@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { string, z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -25,14 +25,14 @@ export const answerRouter = createTRPCRouter({
       score,
       question: Array.isArray(question)
         ? question.map(({ id, name, description }) => ({
-            id,
-            name,
-            description,
+            id: string().parse(id),
+            name: string().parse(name),
+            description: string().parse(description),
           }))
         : [],
       evaluation: Array.isArray(evaluation)
         ? evaluation.map(({ id }) => ({
-            id,
+            id: string().parse(id),
           }))
         : [],
     }));
