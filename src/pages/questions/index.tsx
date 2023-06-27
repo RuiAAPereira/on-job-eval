@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useSession } from "next-auth/react";
 import AddQuestion from "@/components/questions/AddQuestion";
 import TableQuestions from "@/components/questions/TableQuestions";
+import Wrapper from "@/components/common/Wrapper";
 
 export default function Questions() {
   const { data: sessionData } = useSession();
@@ -13,7 +14,7 @@ export default function Questions() {
         <meta name="description" content="On job evaluation" />
         <link rel="icon" href="public/favicon.ico" />
       </Head>
-      <main>
+      <Wrapper>
         <div>
           <h1>Perguntas</h1>
           <p>
@@ -27,13 +28,13 @@ export default function Questions() {
         </div>
         <div>
           <div>
-            <AddQuestion />
+            {/* <AddQuestion /> */}
           </div>
           <div>
-            <TableQuestions />
+            {/* <TableQuestions /> */}
           </div>
         </div>
-      </main>
+      </Wrapper>
     </>
   );
 }

@@ -4,15 +4,29 @@ import Link from "next/link";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+
+const navigation = [
+  { name: "Home", href: "/", current: "" },
+  { name: "Categorias", href: "/categories", current: "" },
+  { name: "Perguntas", href: "/questions", current: "" },
+  // { name: "Avaliação", href: "/evaluation", current: "" },
+  { name: "Formandos", href: "/employees", current: "" },
+  // { name: "Reports", href: "#", current: "" },
+];
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);
   };
 
-  // get the current user from next-auth
   const { data: user } = useSession();
 
   return (
@@ -33,27 +47,32 @@ const navbar = () => {
           <ul className="hidden sm:flex">
             {user?.user.role === "ADMIN" && (
               <>
-                <Link href={"/employees"}>
-                  <li className="nav-link">Formandos</li>
-                </Link>
-                <Link href={"/employees"}>
-                  <li className="nav-link">Formandos</li>
-                </Link>
-                <Link href={"/employees"}>
-                  <li className="nav-link">Formandos</li>
-                </Link>
+                {navigation.map((item) => {
+                  const current = pathname === item.href;
+                  return (
+                    <Link key={item.name} href={item.href}>
+                      <li
+                        className={classNames(
+                          current ? "border-b" : "",
+                          "nav-link ml-10"
+                        )}
+                        aria-current={current ? "page" : undefined}
+                      >
+                        {item.name}
+                      </li>
+                    </Link>
+                  );
+                })}
               </>
             )}
-            {/* if user next auth logout */}
             {!user && (
               <Link href={"/api/auth/signin"}>
-                <li className="nav-link">Login</li>
+                <li className="nav-link ml-10">Login</li>
               </Link>
             )}
-            {/* if user next auth login */}
             {user && (
               <Link href={"/api/auth/signout"}>
-                <li className="nav-link">Logout</li>
+                <li className="nav-link ml-10">Logout</li>
               </Link>
             )}
           </ul>
@@ -66,7 +85,7 @@ const navbar = () => {
         className={
           menuOpen
             ? "fixed left-0 top-0 h-screen w-[75%] bg-slate-200 p-10 duration-500 ease-in sm:hidden"
-            : "fixed left-[-100%] top-0 p-10 duration-500 ease-in"
+            : "fixed left-[-100%] top-0 h-screen w-[75%] bg-slate-200 p-10 duration-500 ease-in"
         }
       >
         <div className="flex w-full items-center justify-end sm:hidden">
@@ -75,31 +94,37 @@ const navbar = () => {
           </div>
         </div>
         <div className="flex-col py-4 sm:hidden">
-          <ul>
-            <Link href={"/employees"}>
-              <li
-                className="cursor-pointer py-2"
-                onClick={() => setMenuOpen(false)}
-              >
-                Formandos
-              </li>
-            </Link>
-            <Link href={"/employees"}>
-              <li
-                className="cursor-pointer py-2"
-                onClick={() => setMenuOpen(false)}
-              >
-                Formandos
-              </li>
-            </Link>
-            <Link href={"/employees"}>
-              <li
-                className="cursor-pointer py-2"
-                onClick={() => setMenuOpen(false)}
-              >
-                Formandos
-              </li>
-            </Link>
+          <ul className="text-left">
+            {user?.user.role === "ADMIN" && (
+              <>
+                {navigation.map((item) => {
+                  const current = pathname === item.href;
+                  return (
+                    <Link key={item.name} href={item.href}>
+                      <li
+                        className={classNames(
+                          current ? "border-b" : "",
+                          "nav-link py-2"
+                        )}
+                        aria-current={current ? "page" : undefined}
+                      >
+                        {item.name}
+                      </li>
+                    </Link>
+                  );
+                })}
+              </>
+            )}
+            {!user && (
+              <Link href={"/api/auth/signin"}>
+                <li className="nav-link py-2">Login</li>
+              </Link>
+            )}
+            {user && (
+              <Link href={"/api/auth/signout"}>
+                <li className="nav-link py-2">Logout</li>
+              </Link>
+            )}
           </ul>
         </div>
         <Link href="/">

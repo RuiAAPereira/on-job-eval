@@ -1,6 +1,5 @@
 import toast from "react-hot-toast";
 import { api } from "@/utils/api";
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Questions } from "@/types";
 
 type QuestionProps = {
@@ -53,7 +52,7 @@ export default function Question({ question }: QuestionProps) {
       <td>{description ? description : <span>Sem descrição</span>}</td>
       <td>
         {/* <EditQuestion id={id} name={name} description={description} /> */}
-        <AlertDialog.Root>
+        {/* <AlertDialog.Root>
           <AlertDialog.Trigger asChild>
             <button className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-blue-500 px-[15px] font-medium leading-none text-blue-100 hover:bg-blue-600 focus:outline-none">
               Apagar
@@ -91,7 +90,7 @@ export default function Question({ question }: QuestionProps) {
               </div>
             </AlertDialog.Content>
           </AlertDialog.Portal>
-        </AlertDialog.Root>
+        </AlertDialog.Root> */}
       </td>
     </tr>
   );

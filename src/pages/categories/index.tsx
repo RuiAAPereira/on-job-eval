@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useSession } from "next-auth/react";
 import CategoriesTable from "@/components/categories/TableCategories";
 import AddCategory from "@/components/categories/AddCategory";
+import Wrapper from "@/components/common/Wrapper";
 
 export default function Categories() {
   const { data: sessionData } = useSession();
@@ -12,7 +13,7 @@ export default function Categories() {
         <meta name="description" content="On job evaluation" />
         <link rel="shortcut icon" href="public/favicon.ico" />
       </Head>
-      <main>
+      <Wrapper>
         <div>
           <h1>Categorias</h1>
           <p>
@@ -27,13 +28,13 @@ export default function Categories() {
 
         <div>
           <div>
-            <AddCategory />
+            {/* <AddCategory /> */}
           </div>
           <div>
-            <CategoriesTable />
+            {/* <CategoriesTable /> */}
           </div>
         </div>
-      </main>
+      </Wrapper>
     </>
   );
 }
