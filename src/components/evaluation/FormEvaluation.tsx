@@ -111,7 +111,11 @@ export default function FormEvaluation(props: FormEvaluationProps) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit();
+          handleSubmit().then(() => {
+            console.log("handleSubmit");
+          }).catch((error) => {
+            console.error(error);
+          });
         }}
       >
         {categories && categories.length ? (
