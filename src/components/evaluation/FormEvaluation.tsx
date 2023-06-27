@@ -59,7 +59,7 @@ export default function FormEvaluation(props: FormEvaluationProps) {
         });
       });
 
-      router.push("/evaluation/details/" + data.id);
+      router.push("/employees/" + props.employeeId + "/details");
     },
   });
 
@@ -81,42 +81,50 @@ export default function FormEvaluation(props: FormEvaluationProps) {
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-    >
-      {categories && categories.length ? (
-        categories?.map((c) => {
-          return (
-            <div key={c.id}>
-              <h2>{c.name}</h2>
+    <div className="col-span-2 rounded-lg bg-white p-8 shadow-xl">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
+        {categories && categories.length ? (
+          categories?.map((c) => {
+            return (
+              <div key={c.id}>
+                <h4 className="border-b pb-2 text-xl font-bold text-orange-600">
+                  {c.name}
+                </h4>
 
-              {c.questions.map((q) => {
-                return (
-                  <Answer
-                    key={q.id}
-                    question={q}
-                    onChange={(value: number) =>
-                      handleAnswerChange(q.id, value)
-                    }
-                  />
-                );
-              })}
-            </div>
-          );
-        })
-      ) : (
-        <div>
-          <h2>Nenhuma pergunta encontrada</h2>
+                {c.questions.map((q) => {
+                  return (
+                    <Answer
+                      key={q.id}
+                      question={q}
+                      onChange={(value: number) =>
+                        handleAnswerChange(q.id, value)
+                      }
+                    />
+                  );
+                })}
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <h2>Nenhuma pergunta encontrada</h2>
+          </div>
+        )}
+
+        <div className="flex justify-end">
+          <button
+            className="mt-4 inline-block rounded border border-green-600 bg-green-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-green-600 focus:outline-none focus:ring active:text-indigo-500"
+            type="submit"
+          >
+            Gravar
+          </button>
         </div>
-      )}
-      <div>
-        <div>
-          <button type="submit">Gravar</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }

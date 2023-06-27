@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 import { questionName, questionDescription, categoryId } from "@/types";
 
 const questionInputSchema = z.object({
@@ -17,6 +17,35 @@ export const questionRouter = createTRPCRouter({
       name,
       description,
     }));
+  }),
+
+  getQuestionsWithAverageAnswerScore: protectedProcedure.query(
+    async ({ ctx }) => {
+      const questions = await ctx.prisma.question.findMany({
+        include: {
+          Answer: {
+            select: {
+              score: true,
+            },
+          },
+        },
+      });
+
+      return questions.map(({ id, name, description, Answer }) => ({
+        id,
+        name,
+        description,
+        averageScore:
+          Answer.reduce((acc, { score }) => acc + score, 0) / Answer.length,
+        anwserCount: Answer.length,
+      }));
+    }
+  ),
+
+  getCount: publicProcedure.query(async ({ ctx }) => {
+    const count = await ctx.prisma.question.count();
+
+    return count;
   }),
 
   create: protectedProcedure

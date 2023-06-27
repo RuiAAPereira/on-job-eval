@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 import { categoryName, categoryDescription } from "@/types";
 
 const categoryInputSchema = z.object({
@@ -34,6 +34,36 @@ export const categoryRouter = createTRPCRouter({
         name,
         description,
       })),
+    }));
+  }),
+
+  getAllWithQuestionsAndAnswers: publicProcedure.query(async ({ ctx }) => {
+    const categories = await ctx.prisma.category.findMany({
+      include: {
+        Question: {
+          include: {
+            Answer: {
+              select: {
+                score: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return categories.map(({ id, name, description, Question }) => ({
+      id,
+      name,
+      description,
+      questionCount: Question.length,
+      averageScore:
+        Question.reduce(
+          (acc, { Answer }) =>
+            acc +
+            Answer.reduce((acc, { score }) => acc + score, 0) / Answer.length,
+          0
+        ) / Question.length,
     }));
   }),
 

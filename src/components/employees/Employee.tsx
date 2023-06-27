@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import type { Employees } from "@/types";
 import { api } from "@/utils/api";
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
+// import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import EditEmployee from "./EditEmployee";
 
 type EmployeeProps = {
@@ -54,7 +54,7 @@ export default function Category({ employee }: EmployeeProps) {
           Detalhes
         </a>
         <EditEmployee id={id} name={name} number={number} />
-        <AlertDialog.Root>
+        {/* <AlertDialog.Root>
           <AlertDialog.Trigger asChild>
             <button className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-blue-500 px-[15px] font-medium leading-none text-blue-100 hover:bg-blue-600 focus:outline-none">
               Apagar
@@ -92,7 +92,7 @@ export default function Category({ employee }: EmployeeProps) {
               </div>
             </AlertDialog.Content>
           </AlertDialog.Portal>
-        </AlertDialog.Root>
+        </AlertDialog.Root> */}
       </td>
     </tr>
   );

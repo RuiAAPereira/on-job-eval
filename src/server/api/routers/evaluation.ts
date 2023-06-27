@@ -35,6 +35,32 @@ export const evaluationRouter = createTRPCRouter({
     }));
   }),
 
+  getCount: publicProcedure.query(async ({ ctx }) => {
+    const count = await ctx.prisma.evaluation.count();
+    return count;
+  }),
+
+  getResume: protectedProcedure.query(async ({ ctx }) => {
+    const evaluations = await ctx.prisma.evaluation.findMany({
+      include: {
+        Answer: {
+          include: {
+            question: true,
+          },
+        },
+      },
+    });
+
+    return evaluations.map(({ id, Answer }) => ({
+      id,
+      answers: Answer.map(({ id, score, question }) => ({
+        id,
+        score,
+        question: question.name,
+      })),
+    }));
+  }),
+
   getById: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
@@ -79,20 +105,60 @@ export const evaluationRouter = createTRPCRouter({
       };
     }),
 
+  // get all answers by employee id include questions and also return the average score
   getByEmployeeId: protectedProcedure
-    .input(z.string())
+    .input(employeeId)
     .query(async ({ ctx, input }) => {
       if (!input) {
         throw new Error("Input value is undefined or null");
       }
 
-      const evaluations = await ctx.prisma.evaluation.findMany({
+      const evaluation = await ctx.prisma.evaluation.findMany({
         where: {
           employeeId: input,
         },
+        include: {
+          Answer: {
+            select: {
+              score: true,
+              question: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
       });
 
-      return evaluations.map(({ id, employeeId }) => ({ id, employeeId }));
+      if (!evaluation) {
+        throw new Error("Evaluation not found");
+      }
+
+      const totalAnswers = evaluation.reduce((acc, evaluation) => {
+        return acc + evaluation.Answer.length;
+      }, 0);
+
+      const averageScore =
+        evaluation.reduce((acc, evaluation) => {
+          return (
+            acc +
+            evaluation.Answer.reduce((acc, answer) => {
+              return acc + answer.score;
+            }, 0)
+          );
+        }, 0) / totalAnswers;
+
+      return {
+        averageScore,
+        evaluations: evaluation.map(({ id, Answer }) => ({
+          id,
+          answers: Answer.map(({ score, question }) => ({
+            score,
+            question,
+          })),
+        })),
+      };
     }),
 
   create: protectedProcedure

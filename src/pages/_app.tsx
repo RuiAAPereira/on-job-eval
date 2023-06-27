@@ -5,6 +5,7 @@ import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import Navbar from "@/components/layout/navbar";
 import { Toaster } from "react-hot-toast";
+import BreadCrumbs from "@/components/common/BreadCrumbs";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -13,7 +14,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Navbar />
-      <Component {...pageProps} />
+      <div className="pt-28">
+        <Component {...pageProps} />
+      </div>
       <Toaster
         toastOptions={{
           success: {

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 import EmployeeEvaluations from "@/components/employees/EmployeeEvaluations";
 
-export default function EmployeeDetails() {
+export default function EditEmployee() {
   const { data: sessionData } = useSession();
 
   const { query } = useRouter();
@@ -26,6 +26,7 @@ export default function EmployeeDetails() {
       </Head>
 
       <main>
+
         <div>
           <h1>Detalhes de {employee?.name}</h1>
           <p>{sessionData && <span>{sessionData.user.email}</span>}</p>
@@ -33,7 +34,7 @@ export default function EmployeeDetails() {
 
         {employee && (
           <div>
-            <div className="mx-auto max-w-4xl rounded-md bg-gray-300 px-4 py-8 md:bg-gray-800 lg:py-16">
+            <div className="">
               <div>
                 <div>
                   <div>

@@ -1,6 +1,6 @@
 import PageHead from "@/components/layout/head";
 import { type NextPage } from "next";
-
+import Average from "@/components/charts/Average";
 
 const Home: NextPage = () => {
   const title = "Avaliação On Job Training";
@@ -9,7 +9,7 @@ const Home: NextPage = () => {
     <>
       <PageHead title={title} />
       <main>
-        {/* <h1 className="text-3xl font-bold">Hello world!</h1> */}
+        <Average />
       </main>
     </>
   );

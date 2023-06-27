@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .nav-link {
+    @apply ml-10 border-indigo-600 text-lg hover:border-b;
+  }
+}

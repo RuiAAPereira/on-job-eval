@@ -1,10 +1,11 @@
 import Head from "next/head";
-import { useSession } from "next-auth/react";
-import AddEmployee from "@/components/employees/AddEmployee";
-import EmployeeTable from "@/components/employees/TableEmployees";
+import TableEmployees from "@/components/employees/TableEmployees";
+import Wrapper from "@/components/common/Wrapper";
+
 
 export default function Employees() {
-  const { data: sessionData } = useSession();
+ 
+
   return (
     <>
       <Head>
@@ -12,28 +13,13 @@ export default function Employees() {
         <meta name="description" content="On job evaluation" />
         <link rel="shortcut icon" href="public/favicon.ico" />
       </Head>
-      <main>
+      <Wrapper>
         <div>
-          <h1>Formandos</h1>
-          <p>
-            {sessionData && (
-              <span>
-                {sessionData.user?.name} - logado como{" "}
-                {sessionData.user?.role.toLowerCase()}
-              </span>
-            )}
-          </p>
-        </div>
+          <h1 className="text-xl ">Formandos</h1>
 
-        <div>
-          <div>
-            <AddEmployee />
-          </div>
-          <div>
-            <EmployeeTable />
-          </div>
+          <TableEmployees />
         </div>
-      </main>
+      </Wrapper>
     </>
   );
 }

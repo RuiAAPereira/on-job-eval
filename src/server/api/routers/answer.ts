@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 
 const answerInputSchema = z.object({
   score: z.number(),
@@ -34,6 +38,22 @@ export const answerRouter = createTRPCRouter({
     }));
   }),
 
+  getAverageScore: publicProcedure.query(async ({ ctx }) => {
+    const answers = await ctx.prisma.answer.findMany({
+      include: {
+        question: true,
+        evaluation: true,
+      },
+    });
+
+    const averageScore =
+      answers.reduce((acc, answer) => {
+        return acc + answer.score;
+      }, 0) / answers.length;
+
+    return averageScore;
+  }),
+
   create: protectedProcedure
     .input(answerInputSchema)
     .mutation(async ({ ctx, input }) => {
@@ -46,4 +66,3 @@ export const answerRouter = createTRPCRouter({
       });
     }),
 });
-

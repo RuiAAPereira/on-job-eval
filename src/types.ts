@@ -56,3 +56,9 @@ export const employeeNumber = z.number();
 export const employeeId = z.string({
   required_error: "Campo obrigatório",
 });
+
+export type Employee = {
+  id: string;
+  name: string;
+  number: number | null;
+};

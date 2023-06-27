@@ -40,6 +40,65 @@ export const employeeRouter = createTRPCRouter({
     return employee;
   }),
 
+  getCount: publicProcedure.query(async ({ ctx }) => {
+    const count = await ctx.prisma.employee.count();
+    return count;
+  }),
+
+  getWithoutEvaluation: protectedProcedure.query(async ({ ctx }) => {
+    const employees = await ctx.prisma.employee.findMany({
+      where: {
+        Evaluation: {
+          none: {},
+        },
+      },
+    });
+
+    return employees.map(({ id, name, number }) => ({
+      id,
+      name,
+      number,
+    }));
+  }),
+
+  employeePaginationWithSearch: protectedProcedure
+    .input(
+      z.object({
+        skip: z.number(),
+        take: z.number(),
+        search: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const employees = await ctx.prisma.employee.findMany({
+        where: {
+          name: { contains: input.search },
+        },
+        skip: input.skip,
+        take: input.take,
+      });
+
+      const totalEmployees = await ctx.prisma.employee.count({
+        where: {
+          name: { contains: input.search },
+        },
+      });
+
+      const totalPages = Math.ceil(totalEmployees / input.take);
+      const currentPage = Math.floor(input.skip / input.take) + 1;
+
+      return {
+        employees: employees.map(({ id, name, number }) => ({
+          id,
+          name,
+          number,
+        })),
+        totalPages,
+        currentPage,
+        totalEmployees,
+      };
+    }),
+
   create: protectedProcedure
     .input(employeeInputSchema)
     .mutation(async ({ ctx, input }) => {
