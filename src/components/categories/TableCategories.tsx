@@ -6,7 +6,7 @@ import { FaUserMinus } from "react-icons/fa6";
 import { DynamicTable } from "../common/DynamicTable";
 import { DynamicModal } from "../common/DynamicModal";
 import FormCategory from "./FormCategory";
-import { Pagination } from "../common/Pagination";
+import DynamicPagination from "../common/DynamicPagination";
 
 export default function TableCategories() {
   const trpc = api.useContext();
@@ -149,13 +149,14 @@ export default function TableCategories() {
       </div>
       <div>
         <DynamicTable data={tableData} columns={columns} />
-
-        <Pagination
-          page={page}
-          currentPage={searchResults?.currentPage}
-          totalPages={searchResults?.totalPages}
-          onPageChange={(page) => setPage(page)}
-        />
+        {searchResults?.totalPages > 1 && (
+          <DynamicPagination
+            page={page}
+            currentPage={searchResults?.currentPage}
+            totalPages={searchResults?.totalPages}
+            onPageChange={(page) => setPage(page)}
+          />
+        )}
       </div>
       {showModal ? (
         <>

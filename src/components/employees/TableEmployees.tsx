@@ -2,7 +2,7 @@ import React from "react";
 import { api } from "@/utils/api";
 import { useEffect, useState } from "react";
 import type { Employee } from "@/types";
-import { Pagination } from "../common/Pagination";
+import DynamicPagination from "../common/DynamicPagination";
 import { DynamicTable } from "../common/DynamicTable";
 import { FaUserMinus } from "react-icons/fa6";
 import toast from "react-hot-toast";
@@ -160,14 +160,14 @@ export default function TableEmployees() {
       </div>
       <div>
         <DynamicTable data={tableData} columns={columns} />
-
-          <Pagination
+        {searchResults?.totalPages > 1 && (
+          <DynamicPagination
             page={page}
             currentPage={searchResults?.currentPage}
             totalPages={searchResults?.totalPages}
             onPageChange={(page) => setPage(page)}
           />
-
+        )}
       </div>
       {showModal ? (
         <>

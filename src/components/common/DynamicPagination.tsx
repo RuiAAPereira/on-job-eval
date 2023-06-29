@@ -5,12 +5,12 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export const Pagination = ({
+export default function DynamicPagination({
   page,
   currentPage,
   totalPages,
   onPageChange,
-}: PaginationProps) => {
+}: PaginationProps) {
   const handlePageChange = (newPage: number) => {
     onPageChange(newPage);
   };
@@ -120,4 +120,4 @@ export const Pagination = ({
       </span>
     </div>
   );
-};
+}
