@@ -149,14 +149,13 @@ export default function TableCategories() {
       </div>
       <div>
         <DynamicTable data={tableData} columns={columns} />
-        <div className={searchResults?.totalPages > 1 ? "" : "hidden"}>
-          <Pagination
-            page={page}
-            currentPage={searchResults?.currentPage}
-            totalPages={searchResults?.totalPages}
-            onPageChange={(page) => setPage(page)}
-          />
-        </div>
+
+        <Pagination
+          page={page}
+          currentPage={searchResults?.currentPage}
+          totalPages={searchResults?.totalPages}
+          onPageChange={(page) => setPage(page)}
+        />
       </div>
       {showModal ? (
         <>
