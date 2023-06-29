@@ -127,6 +127,27 @@ export const employeeRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
+      const evaluationIds = await ctx.prisma.evaluation.findMany({
+        where: {
+          employeeId: input,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const evaluationIdArray = evaluationIds.map((evaluation) => {
+        return evaluation.id;
+      });
+
+      await ctx.prisma.answer.deleteMany({
+        where: {
+          evaluationId: {
+            in: evaluationIdArray,
+          },
+        },
+      });
+
       await ctx.prisma.evaluation.deleteMany({
         where: {
           employeeId: input,

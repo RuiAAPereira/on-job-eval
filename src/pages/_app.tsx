@@ -5,7 +5,6 @@ import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import Navbar from "@/components/layout/navbar";
 import { Toaster } from "react-hot-toast";
-import BreadCrumbs from "@/components/common/BreadCrumbs";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

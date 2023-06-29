@@ -1,15 +1,18 @@
-import { FC } from "react";
+import type { FC, ReactNode } from "react";
 
 interface Props<T> {
   data: T[];
   columns: {
     title: string;
     dataIndex: keyof T | null;
-    render?: (record: T) => React.ReactNode;
+    render?: (record: T) => ReactNode;
   }[];
 }
 
-export const DynamicTable: FC<Props<any>> = ({ data, columns }) => {
+export const DynamicTable: FC<Props<any>> = <T,>({
+  data,
+  columns,
+}: Props<T>) => {
   return (
     <table className="min-w-full divide-y divide-gray-200">
       <thead>
@@ -35,7 +38,7 @@ export const DynamicTable: FC<Props<any>> = ({ data, columns }) => {
                 <div className="text-sm text-gray-900">
                   {column.render
                     ? column.render(item)
-                    : item[column.dataIndex!]}
+                    : (item[column.dataIndex as keyof T] as ReactNode)}
                 </div>
               </td>
             ))}

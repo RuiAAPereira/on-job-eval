@@ -1,4 +1,5 @@
 import { api } from "@/utils/api";
+import router from "next/router";
 
 type props = {
   employeeId: string;
@@ -62,12 +63,13 @@ export default function EmployeeEvaluations({ employeeId }: props) {
         <div className="flex-1 rounded-lg bg-white p-8 shadow-xl">
           <h4 className="text-xl font-bold text-gray-900">Avaliação</h4>
           <p>Este formando ainda não tem avaliações</p>
-          <a
+          <button
             className="mt-4 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-            href={"/evaluation/" + employeeId + "/create"}
+            type="button"
+            onClick={() => router.push(`/evaluation/${employeeId}/create`)}
           >
             Criar avaliação
-          </a>
+          </button>
         </div>
       )}
     </>

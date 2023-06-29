@@ -4,9 +4,9 @@ import {
   getServerSession,
   type NextAuthOptions,
   type DefaultSession,
+  Session,
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 import { compare } from "bcrypt";
 
@@ -54,11 +54,11 @@ export const authOptions: NextAuthOptions = {
     },
     jwt: ({ token, user }) => {
       if (user) {
-        const u = user as unknown as any;
+        const { id, role } = user as Session["user"];
         return {
           ...token,
-          id: u.id,
-          role: u.role,
+          id,
+          role,
         };
       }
       return token;

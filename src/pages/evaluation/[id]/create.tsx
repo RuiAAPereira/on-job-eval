@@ -1,21 +1,37 @@
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 import { api } from "@/utils/api";
 import FormEvaluation from "@/components/evaluation/FormEvaluation";
-import { useRouter } from "next/router";
 import Wrapper from "@/components/common/Wrapper";
 
-export default function CreateEvaluation() {
-  const { data: sessionData } = useSession();
+export function getServerSideProps(context: {
+  params: Record<string, unknown>;
+}) {
+  return {
+    props: { params: context.params },
+  };
+}
 
-  const { query } = useRouter();
+interface EmployeeDetailsProps {
+  params: {
+    id: string;
+  };
+}
 
-  const { data: employee, error } = api.employee.getById.useQuery(
-    String(query.id)
-  );
+export default function CreateEvaluation({ params }: EmployeeDetailsProps) {
+  const { id } = params;
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  const {
+    data: employee,
+    isError,
+    isLoading,
+  } = api.employee.getById.useQuery(id);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
   }
 
   return (
@@ -43,7 +59,7 @@ export default function CreateEvaluation() {
                   </li>
                 </ul>
               </div>
-              <FormEvaluation employeeId={employee.id} />
+              <FormEvaluation employeeId={id} />
             </div>
           )}
         </div>

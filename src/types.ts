@@ -1,7 +1,6 @@
 import type { inferRouterOutputs } from "@trpc/server";
 import { z } from "zod";
 import type { AppRouter } from "./server/api/root";
-import { type } from "os";
 
 type RouterOutputs = inferRouterOutputs<AppRouter>;
 
@@ -61,4 +60,10 @@ export type Employee = {
   id: string;
   name: string;
   number: number | null;
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  description: string | null;
 };

@@ -54,7 +54,6 @@ export default function FormEvaluation(props: FormEvaluationProps) {
         toast.error("Erro ao salvar respostas");
       }
     },
-
   });
 
   const handleSubmit = async () => {
@@ -86,7 +85,6 @@ export default function FormEvaluation(props: FormEvaluationProps) {
     }
   };
 
-
   const router = useRouter();
 
   const { mutate: addAnswer } = api.answer.create.useMutation();
@@ -111,11 +109,13 @@ export default function FormEvaluation(props: FormEvaluationProps) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit().then(() => {
-            console.log("handleSubmit");
-          }).catch((error) => {
-            console.error(error);
-          });
+          handleSubmit()
+            .then(() => {
+              console.log("handleSubmit");
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         }}
       >
         {categories && categories.length ? (

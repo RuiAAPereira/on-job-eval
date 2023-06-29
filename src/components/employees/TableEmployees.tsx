@@ -1,14 +1,18 @@
 import React from "react";
 import { api } from "@/utils/api";
 import { useEffect, useState } from "react";
-import { Employee } from "@/types";
-import Pagination from "../common/pagination";
+import type { Employee } from "@/types";
+import Pagination from "../common/Pagination";
 import { DynamicTable } from "../common/DynamicTable";
 import Link from "next/link";
 import { FaUserMinus } from "react-icons/fa6";
 import toast from "react-hot-toast";
+import { DynamicModal } from "../common/DynamicModal";
+import FormEmployee from "./FormEmployee";
+import { useRouter } from "next/router";
 
 export default function TableEmployees() {
+  const router = useRouter();
   const trpc = api.useContext();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("");
@@ -17,37 +21,46 @@ export default function TableEmployees() {
   const [showModal, setShowModal] = React.useState(false);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string>("");
 
-    const { mutate: deleteMutation } = api.employee.delete.useMutation({
-      onMutate: async (deleteId) => {
-        await trpc.employee.employeePaginationWithSearch.cancel();
+  const [showEditModal, setShowEditModal] = React.useState(false);
+  const handleCloseModal = () => {
+    setShowEditModal(false);
+  };
 
-        const previousEmployees =
-          trpc.employee.employeePaginationWithSearch.getData();
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null
+  );
 
-        trpc.employee.employeePaginationWithSearch.setData(
-          { search: filter, take: 15, skip: page * 15 },
-          (prev) => {
-            if (!prev) return previousEmployees;
-            return previousEmployees;
-          }
-        );
+  const { mutate: deleteMutation } = api.employee.delete.useMutation({
+    onMutate: async () => {
+      await trpc.employee.employeePaginationWithSearch.cancel();
 
-        return { previousEmployees };
-      },
-      onSuccess: () => {
-        toast.success(`"${name}" apagado com sucesso!`);
-      },
-      onError: (err, newEmployee, ctx) => {
-        toast.error("Falha ao apagar o formando!");
-        trpc.employee.employeePaginationWithSearch.setData(
-          { search: filter, take: 15, skip: page * 15 },
-          () => ctx?.previousEmployees
-        );
-      },
-      onSettled: async () => {
-        await trpc.employee.employeePaginationWithSearch.invalidate();
-      },
-    });
+      const previousEmployees =
+        trpc.employee.employeePaginationWithSearch.getData();
+
+      trpc.employee.employeePaginationWithSearch.setData(
+        { search: filter, take: 15, skip: page * 15 },
+        (prev) => {
+          if (!prev) return previousEmployees;
+          return previousEmployees;
+        }
+      );
+
+      return { previousEmployees };
+    },
+    onSuccess: () => {
+      toast.success("Formando apagado com sucesso!");
+    },
+    onError: (err, newEmployee, ctx) => {
+      toast.error("Falha ao apagar o formando!" + err.message);
+      trpc.employee.employeePaginationWithSearch.setData(
+        { search: filter, take: 15, skip: page * 15 },
+        () => ctx?.previousEmployees
+      );
+    },
+    onSettled: async () => {
+      await trpc.employee.employeePaginationWithSearch.invalidate();
+    },
+  });
 
   const {
     data: searchResults,
@@ -94,7 +107,22 @@ export default function TableEmployees() {
       dataIndex: null,
       render: (record: Employee) => (
         <>
-          <Link href={`/employees/${record.id}/details`}>Ver</Link>
+          {/* <Link href={`/employees/${record.id}/details`}>Ver</Link> */}
+          <button
+            type="button"
+            onClick={() => router.push(`/employees/${record.id}/details`)}
+          >
+            Ver
+          </button>
+          {" | "}
+          <button
+            onClick={() => {
+              setShowEditModal(true);
+              setSelectedEmployee(record);
+            }}
+          >
+            Editar
+          </button>
           {" | "}
           <button
             onClick={() => {
@@ -108,6 +136,16 @@ export default function TableEmployees() {
       ),
     },
   ];
+
+  const handleSuccess = (message: string) => {
+    toast.success(message);
+    setShowEditModal(false);
+  };
+
+  const handleError = (message: string) => {
+    toast.error(message);
+    setShowEditModal(false);
+  };
 
   return (
     <div className="relative mt-8 overflow-x-auto shadow-md sm:rounded-lg">
@@ -123,12 +161,14 @@ export default function TableEmployees() {
       </div>
       <div>
         <DynamicTable data={tableData} columns={columns} />
-        <Pagination
-          page={page}
-          currentPage={searchResults?.currentPage}
-          totalPages={searchResults?.totalPages}
-          onPageChange={(page) => setPage(page)}
-        />
+        {searchResults?.totalPages > 1 && (
+          <Pagination
+            page={page}
+            currentPage={searchResults?.currentPage}
+            totalPages={searchResults?.totalPages}
+            onPageChange={(page) => setPage(page)}
+          />
+        )}
       </div>
       {showModal ? (
         <>
@@ -178,6 +218,19 @@ export default function TableEmployees() {
           )}
         </>
       ) : null}
+
+      <DynamicModal
+        show={showEditModal}
+        icon={<FaUserMinus className="h-6 w-6 text-red-600" />}
+        title="Editar Categoria"
+      >
+        <FormEmployee
+          onSuccess={handleSuccess}
+          onError={handleError}
+          onCancel={handleCloseModal}
+          employee={selectedEmployee}
+        />
+      </DynamicModal>
     </div>
   );
 }

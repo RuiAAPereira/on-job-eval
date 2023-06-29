@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { categoryName, categoryDescription } from "@/types";
 
 const categoryInputSchema = z.object({
@@ -17,6 +21,44 @@ export const categoryRouter = createTRPCRouter({
       description,
     }));
   }),
+
+  categoryPaginationWithSearch: protectedProcedure
+    .input(
+      z.object({
+        skip: z.number(),
+        take: z.number(),
+        search: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const categories = await ctx.prisma.category.findMany({
+        where: {
+          name: { contains: input.search },
+        },
+        skip: input.skip,
+        take: input.take,
+      });
+
+      const totalCategories = await ctx.prisma.category.count({
+        where: {
+          name: { contains: input.search },
+        },
+      });
+
+      const totalPages = Math.ceil(totalCategories / input.take);
+      const currentPage = Math.floor(input.skip / input.take) + 1;
+
+      return {
+        categories: categories.map(({ id, name, description }) => ({
+          id,
+          name,
+          description,
+        })),
+        totalPages,
+        currentPage,
+        totalCategories,
+      };
+    }),
 
   getAllWithQuestions: protectedProcedure.query(async ({ ctx }) => {
     const categories = await ctx.prisma.category.findMany({
