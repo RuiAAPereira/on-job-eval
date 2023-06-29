@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import type { Employee } from "@/types";
 import Pagination from "../common/Pagination";
 import { DynamicTable } from "../common/DynamicTable";
-import Link from "next/link";
 import { FaUserMinus } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import { DynamicModal } from "../common/DynamicModal";

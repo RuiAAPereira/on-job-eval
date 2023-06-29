@@ -4,8 +4,9 @@ import {
   getServerSession,
   type NextAuthOptions,
   type DefaultSession,
-  Session,
+  type Session,
 } from "next-auth";
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/server/db";
 import { compare } from "bcrypt";

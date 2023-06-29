@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useSession } from "next-auth/react";
-import AddQuestion from "@/components/questions/AddQuestion";
-import TableQuestions from "@/components/questions/TableQuestions";
+// import AddQuestion from "@/components/questions/AddQuestion";
+// import TableQuestions from "@/components/questions/TableQuestions";
 import Wrapper from "@/components/common/Wrapper";
 
 export default function Questions() {

@@ -1,6 +1,6 @@
-import toast from "react-hot-toast";
-import { api } from "@/utils/api";
-import { Questions } from "@/types";
+// import toast from "react-hot-toast";
+// import { api } from "@/utils/api";
+import { type Questions } from "@/types";
 
 type QuestionProps = {
   question: Questions;
@@ -8,35 +8,35 @@ type QuestionProps = {
 
 export default function Question({ question }: QuestionProps) {
   const { id, name, description } = question;
-  const trpc = api.useContext();
+  // const trpc = api.useContext();
 
-  const { mutate: deleteMutation } = api.question.delete.useMutation({
-    onMutate: async (deleteId) => {
-      await trpc.category.getAllWithQuestions.cancel();
+  // const { mutate: deleteMutation } = api.question.delete.useMutation({
+  //   onMutate: async (deleteId) => {
+  //     await trpc.category.getAllWithQuestions.cancel();
 
-      const previousCategories = trpc.category.getAllWithQuestions.getData();
+  //     const previousCategories = trpc.category.getAllWithQuestions.getData();
 
-      trpc.category.getAllWithQuestions.setData(undefined, (prev) => {
-        if (!prev) return previousCategories;
-        return prev.filter((question) => question.id !== deleteId);
-      });
+  //     trpc.category.getAllWithQuestions.setData(undefined, (prev) => {
+  //       if (!prev) return previousCategories;
+  //       return prev.filter((question) => question.id !== deleteId);
+  //     });
 
-      return { previousCategories };
-    },
-    onSuccess: () => {
-      toast.success(`"${name}" apagada com sucesso!`);
-    },
-    onError: (err, newQuestion, ctx) => {
-      toast.error("Falha ao apagar a categoria");
-      trpc.category.getAllWithQuestions.setData(
-        undefined,
-        () => ctx?.previousCategories
-      );
-    },
-    onSettled: async () => {
-      await trpc.category.getAllWithQuestions.invalidate();
-    },
-  });
+  //     return { previousCategories };
+  //   },
+  //   onSuccess: () => {
+  //     toast.success(`"${name}" apagada com sucesso!`);
+  //   },
+  //   onError: (err, newQuestion, ctx) => {
+  //     toast.error("Falha ao apagar a categoria");
+  //     trpc.category.getAllWithQuestions.setData(
+  //       undefined,
+  //       () => ctx?.previousCategories
+  //     );
+  //   },
+  //   onSettled: async () => {
+  //     await trpc.category.getAllWithQuestions.invalidate();
+  //   },
+  // });
 
   return (
     <tr
