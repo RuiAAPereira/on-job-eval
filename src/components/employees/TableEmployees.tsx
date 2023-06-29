@@ -160,14 +160,14 @@ export default function TableEmployees() {
       </div>
       <div>
         <DynamicTable data={tableData} columns={columns} />
-        {searchResults?.totalPages > 1 && (
+        <div className={searchResults?.totalPages > 1 ? "" : "hidden"}>
           <Pagination
             page={page}
             currentPage={searchResults?.currentPage}
             totalPages={searchResults?.totalPages}
             onPageChange={(page) => setPage(page)}
           />
-        )}
+        </div>
       </div>
       {showModal ? (
         <>
