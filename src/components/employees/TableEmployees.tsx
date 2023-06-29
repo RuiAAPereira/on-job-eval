@@ -2,7 +2,7 @@ import React from "react";
 import { api } from "@/utils/api";
 import { useEffect, useState } from "react";
 import type { Employee } from "@/types";
-import Pagination from "../common/Pagination";
+import { Pagination } from "../common/Pagination";
 import { DynamicTable } from "../common/DynamicTable";
 import { FaUserMinus } from "react-icons/fa6";
 import toast from "react-hot-toast";

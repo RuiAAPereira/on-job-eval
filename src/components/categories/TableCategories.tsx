@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaUserMinus } from "react-icons/fa6";
 import { DynamicTable } from "../common/DynamicTable";
-import Pagination from "../common/Pagination";
 import { DynamicModal } from "../common/DynamicModal";
 import FormCategory from "./FormCategory";
+import { Pagination } from "../common/Pagination";
 
 export default function TableCategories() {
   const trpc = api.useContext();
@@ -18,9 +18,9 @@ export default function TableCategories() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
 
   const [showEditModal, setShowEditModal] = React.useState(false);
-    const handleCloseModal = () => {
-      setShowEditModal(false);
-    };
+  const handleCloseModal = () => {
+    setShowEditModal(false);
+  };
 
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
@@ -125,15 +125,15 @@ export default function TableCategories() {
     },
   ];
 
-    const handleSuccess = (message: string) => {
-      toast.success(message);
-      setShowEditModal(false);
-    };
+  const handleSuccess = (message: string) => {
+    toast.success(message);
+    setShowEditModal(false);
+  };
 
-    const handleError = (message: string) => {
-      toast.error(message);
-      setShowEditModal(false);
-    };
+  const handleError = (message: string) => {
+    toast.error(message);
+    setShowEditModal(false);
+  };
 
   return (
     <div className="relative mt-8 overflow-x-auto shadow-md sm:rounded-lg">
