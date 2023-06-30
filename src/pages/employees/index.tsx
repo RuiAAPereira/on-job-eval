@@ -1,4 +1,3 @@
-import Head from "next/head";
 import TableEmployees from "@/components/employees/TableEmployees";
 import Wrapper from "@/components/common/Wrapper";
 import { useState } from "react";
@@ -6,6 +5,7 @@ import toast from "react-hot-toast";
 import { DynamicModal } from "@/components/common/DynamicModal";
 import { FaUserPlus } from "react-icons/fa6";
 import FormEmployee from "@/components/employees/FormEmployee";
+import PageHead from "@/components/layout/head";
 
 export default function Employees() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -26,11 +26,8 @@ export default function Employees() {
 
   return (
     <>
-      <Head>
-        <title>Formandos</title>
-        <meta name="description" content="On job evaluation" />
-        <link rel="shortcut icon" href="public/favicon.ico" />
-      </Head>
+      <PageHead title={"Listagem de Formandos"} />
+
       <Wrapper>
         <>
           <div className="flex justify-between px-4">

@@ -1,11 +1,11 @@
-import Head from "next/head";
 import TableCategories from "@/components/categories/TableCategories";
 import Wrapper from "@/components/common/Wrapper";
 import React, { useState } from "react";
 import { DynamicModal } from "@/components/common/DynamicModal";
-import { FaUserMinus } from "react-icons/fa6";
+import { FaCirclePlus } from "react-icons/fa6";
 import FormCategory from "@/components/categories/FormCategory";
 import toast from "react-hot-toast";
+import PageHead from "@/components/layout/head";
 
 export default function Categories() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -26,11 +26,8 @@ export default function Categories() {
 
   return (
     <>
-      <Head>
-        <title>Categorias</title>
-        <meta name="description" content="On job evaluation" />
-        <link rel="shortcut icon" href="public/favicon.ico" />
-      </Head>
+      <PageHead title={"Listagem de Categorias"} />
+
       <Wrapper>
         <>
           <div className="flex justify-between px-4">
@@ -46,7 +43,7 @@ export default function Categories() {
 
           <DynamicModal
             show={showAddModal}
-            icon={<FaUserMinus className="h-6 w-6 text-red-600" />}
+            icon={<FaCirclePlus className="h-6 w-6 text-green-600" />}
             title="Nova Categoria"
           >
             <FormCategory

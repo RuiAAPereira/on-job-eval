@@ -1,3 +1,5 @@
+import { FaAngleLeft, FaAngleRight, FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
+
 interface PaginationProps {
   page: number;
   currentPage: number;
@@ -20,8 +22,8 @@ export default function DynamicPagination({
       key={pageNumber}
       onClick={() => handlePageChange(pageNumber)}
       disabled={page === pageNumber}
-      className={`rounded-l bg-gray-200 px-4 py-2 font-bold text-gray-600 hover:bg-gray-300 ${
-        page === pageNumber ? "bg-blue-200" : ""
+      className={`rounded-full px-4 py-2 font-bold text-gray-600 hover:bg-blue-500 hover:text-white ${
+        page === pageNumber ? "bg-blue-500 text-white" : "bg-gray-200"
       }`}
     >
       {pageNumber + 1}
@@ -33,9 +35,9 @@ export default function DynamicPagination({
       key="first"
       onClick={() => handlePageChange(0)}
       disabled={page === 0}
-      className="rounded-l bg-gray-200 px-4 py-2 font-bold text-gray-600 hover:bg-gray-300"
+      className="rounded-full bg-gray-200 px-3 py-3 font-bold text-gray-600  hover:bg-blue-500 hover:text-white"
     >
-      Primeira
+      <FaAnglesLeft />
     </button>
   );
 
@@ -44,9 +46,9 @@ export default function DynamicPagination({
       key="last"
       onClick={() => handlePageChange(totalPages - 1)}
       disabled={page === totalPages - 1}
-      className="rounded-r bg-gray-200 px-4 py-2 font-bold text-gray-600 hover:bg-gray-300"
+      className="rounded-full bg-gray-200 px-3 py-3 font-bold text-gray-600  hover:bg-blue-500 hover:text-white"
     >
-      Última
+      <FaAnglesRight />
     </button>
   );
 
@@ -55,9 +57,9 @@ export default function DynamicPagination({
       key="prev"
       onClick={() => handlePageChange(page - 1)}
       disabled={page === 0}
-      className="bg-gray-200 px-4 py-2 font-bold text-gray-600 hover:bg-gray-300"
+      className="rounded-full bg-gray-200 px-3 py-3 font-bold text-gray-600  hover:bg-blue-500 hover:text-white"
     >
-      Anterior
+      <FaAngleLeft />
     </button>
   );
 
@@ -66,9 +68,9 @@ export default function DynamicPagination({
       key="next"
       onClick={() => handlePageChange(page + 1)}
       disabled={page === totalPages - 1}
-      className="rounded-r bg-gray-200 px-4 py-2 font-bold text-gray-600 hover:bg-gray-300"
+      className="rounded-full bg-gray-200 px-3 py-3 font-bold text-gray-600  hover:bg-blue-500 hover:text-white"
     >
-      Próximo
+      <FaAngleRight />
     </button>
   );
 
@@ -107,8 +109,8 @@ export default function DynamicPagination({
   };
 
   return (
-    <div className="flex items-center justify-between p-4">
-      <div className="space-x-2">
+    <div className="flex flex-wrap items-center justify-between p-4 gap-2">
+      <div className="flex items-center space-x-2 font-light">
         {renderFirstPageButton()}
         {renderPrevPageButton()}
         {renderPageButtons()}

@@ -2,11 +2,13 @@ import { api } from "@/utils/api";
 import type { Category } from "@/types";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaUserMinus } from "react-icons/fa6";
+import { FaCircleMinus, FaPencil } from "react-icons/fa6";
 import { DynamicTable } from "../common/DynamicTable";
 import { DynamicModal } from "../common/DynamicModal";
 import FormCategory from "./FormCategory";
 import DynamicPagination from "../common/DynamicPagination";
+import Loading from "../common/Loading";
+import Error404 from "../common/Error404";
 
 export default function TableCategories() {
   const trpc = api.useContext();
@@ -81,13 +83,9 @@ export default function TableCategories() {
     setTableData(searchResults?.categories ?? []);
   }, [searchResults]);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  if (isLoading) return <Loading />;
 
-  if (isError) {
-    return <p>Error</p>;
-  }
+  if (isError) return <Error404 />;
 
   const columns = [
     {
@@ -166,7 +164,7 @@ export default function TableCategories() {
                 <div className="fixed inset-x-0 bottom-0 z-50 mx-4 mb-4 rounded-lg bg-white p-4 md:relative md:mx-auto md:max-w-md">
                   <div className="items-center md:flex">
                     <div className="mx-auto flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full border border-gray-300">
-                      <FaUserMinus className="text-red-500" />
+                      <FaCircleMinus className="text-red-500" />
                     </div>
                     <div className="mt-4 text-center md:ml-6 md:mt-0 md:text-left">
                       <p className="font-bold">
@@ -209,7 +207,7 @@ export default function TableCategories() {
 
       <DynamicModal
         show={showEditModal}
-        icon={<FaUserMinus className="h-6 w-6 text-red-600" />}
+        icon={<FaPencil className="h-6 w-6 text-orange-600" />}
         title="Editar Categoria"
       >
         <FormCategory

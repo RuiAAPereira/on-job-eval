@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import type { Employee } from "@/types";
 import DynamicPagination from "../common/DynamicPagination";
 import { DynamicTable } from "../common/DynamicTable";
-import { FaUserMinus } from "react-icons/fa6";
+import { FaPencil, FaUserMinus } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import { DynamicModal } from "../common/DynamicModal";
 import FormEmployee from "./FormEmployee";
 import { useRouter } from "next/router";
+import Loading from "../common/Loading";
+import Error404 from "../common/Error404";
 
 export default function TableEmployees() {
   const router = useRouter();
@@ -84,13 +86,9 @@ export default function TableEmployees() {
     setTableData(searchResults?.employees ?? []);
   }, [searchResults]);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  if (isLoading) return <Loading />;
 
-  if (isError) {
-    return <p>Error</p>;
-  }
+  if (isError) return <Error404 />;
 
   const columns = [
     {
@@ -220,8 +218,8 @@ export default function TableEmployees() {
 
       <DynamicModal
         show={showEditModal}
-        icon={<FaUserMinus className="h-6 w-6 text-red-600" />}
-        title="Editar Categoria"
+        icon={<FaPencil className="h-6 w-6 text-orange-600" />}
+        title="Editar Formando"
       >
         <FormEmployee
           onSuccess={handleSuccess}

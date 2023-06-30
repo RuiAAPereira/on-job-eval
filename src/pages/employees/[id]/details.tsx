@@ -1,7 +1,9 @@
-import Head from "next/head";
 import { api } from "@/utils/api";
 import Wrapper from "@/components/common/Wrapper";
 import EmployeeEvaluations from "@/components/employees/EmployeeEvaluations";
+import Loading from "@/components/common/Loading";
+import PageHead from "@/components/layout/head";
+import Error404 from "@/components/common/Error404";
 
 export function getServerSideProps(context: {
   params: Record<string, unknown>;
@@ -26,21 +28,13 @@ export default function EmployeeDetails({ params }: EmployeeDetailsProps) {
     isLoading,
   } = api.employee.getById.useQuery(id);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <Loading />;
 
-  if (isError) {
-    return <div>Error</div>;
-  }
+ if (isError) return <Error404 />;
 
   return (
     <>
-      <Head>
-        <title>Detalhes</title>
-        <meta name="description" content="On job evaluation" />
-        <link rel="icon" href="public/favicon.ico" />
-      </Head>
+      <PageHead title={"Detalhes Formando"} />
 
       <Wrapper>
         <div className="relative mt-8 overflow-x-auto p-6 shadow-md sm:rounded-lg">

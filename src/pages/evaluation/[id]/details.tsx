@@ -1,7 +1,7 @@
-import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
+import PageHead from "@/components/layout/head";
 
 export default function Evaluation() {
   const { data: sessionData } = useSession();
@@ -22,11 +22,7 @@ export default function Evaluation() {
 
   return (
     <>
-      <Head>
-        <title>Avaliação</title>
-        <meta name="description" content="On job evaluation" />
-        <link rel="icon" href="public/favicon.ico" />
-      </Head>
+      <PageHead title={"Detalhes da Avaliação"} />
 
       <main>
         <div>

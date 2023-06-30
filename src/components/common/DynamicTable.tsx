@@ -33,9 +33,9 @@ export const DynamicTable: FC<Props<any>> = <T,>({
             {columns.map((column) => (
               <td
                 key={column.dataIndex as string}
-                className="whitespace-nowrap px-6 py-4"
+                className="px-6 py-4"
               >
-                <div className="text-sm text-gray-900">
+                <div className="text-sm text-gray-900 flex gap-1">
                   {column.render
                     ? column.render(item)
                     : (item[column.dataIndex as keyof T] as ReactNode)}

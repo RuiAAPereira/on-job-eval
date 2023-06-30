@@ -149,7 +149,6 @@ export default function FormEmployee({
 
         <input
           className="w-full rounded-md border-2 border-gray-300 p-2 text-sm focus:border-blue-500 focus:outline-none"
-          placeholder="Nova Categoria..."
           type="number"
           name="new-employee-number"
           id="new-employee-number"
@@ -164,7 +163,7 @@ export default function FormEmployee({
         </label>
         <input
           className="w-full rounded-md border-2 border-gray-300 p-2 text-sm focus:border-blue-500 focus:outline-none"
-          placeholder="Nova Categoria..."
+          placeholder="Nome..."
           type="text"
           name="new-employee-name"
           id="new-employee-name"

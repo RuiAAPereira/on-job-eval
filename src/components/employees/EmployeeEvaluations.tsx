@@ -1,5 +1,7 @@
 import { api } from "@/utils/api";
 import router from "next/router";
+import Loading from "../common/Loading";
+import Error404 from "../common/Error404";
 
 type props = {
   employeeId: string;
@@ -12,13 +14,9 @@ export default function EmployeeEvaluations({ employeeId }: props) {
     isError,
   } = api.evaluation.getByEmployeeId.useQuery(employeeId);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  if (isLoading) return <Loading />;
 
-  if (isError) {
-    return <p>Error</p>;
-  }
+  if (isError) return <Error404 />;
 
   return (
     <>
@@ -35,27 +33,38 @@ export default function EmployeeEvaluations({ employeeId }: props) {
             </span>
           </h4>
           <ul className="mt-2 text-gray-700">
-            {evaluations.evaluations.map(
+            {evaluations.evaluations.flatMap(
               (evaluation: {
                 id: string;
-                answers: { score: number; question: { name: string } }[];
-              }) => {
-                return evaluation.answers.map(
-                  (answer: { score: number; question: { name: string } }) => {
-                    return (
-                      <li
-                        className="flex items-center justify-between gap-8 border-y py-4"
-                        key={answer.question.name}
-                      >
-                        <span className="font-bold">
-                          {answer.question.name}
-                        </span>
-                        <span className="text-gray-700">{answer.score}</span>
-                      </li>
-                    );
-                  }
-                );
-              }
+                answers: {
+                  id: string;
+                  score: number;
+                  question: { name: string; description: string | null };
+                }[];
+              }) =>
+                evaluation.answers.map(
+                  (answer: {
+                    id: string;
+                    score: number;
+                    question: { name: string; description: string | null };
+                  }) => (
+                    <li
+                      className="flex items-center justify-between gap-8 border-y py-4"
+                      key={answer.id}
+                    >
+                      <div className="font-bold">
+                        {answer.question.name}
+                        <p className="text-sm text-gray-500">
+                          {answer.question.description ??
+                            "No description available"}
+                        </p>
+                      </div>
+                      <span className="text-xl font-bold text-gray-700">
+                        {answer.score}
+                      </span>
+                    </li>
+                  )
+                )
             )}
           </ul>
         </div>

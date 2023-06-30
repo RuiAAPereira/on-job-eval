@@ -17,6 +17,8 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import Loading from "../common/Loading";
+import Error404 from "../common/Error404";
 
 ChartJS.register(
   CategoryScale,
@@ -68,8 +70,9 @@ function Average() {
   const averageScore = api.answer.getAverageScore.useQuery().data;
   const totalQuestions = api.question.getCount.useQuery().data;
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error</div>;
+  if (isLoading) return <Loading />;
+
+  if (isError) return <Error404 />;
 
   return (
     <>

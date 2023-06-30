@@ -1,8 +1,8 @@
-import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 import EmployeeEvaluations from "@/components/employees/EmployeeEvaluations";
+import PageHead from "@/components/layout/head";
 
 export default function EditEmployee() {
   const { data: sessionData } = useSession();
@@ -19,14 +19,9 @@ export default function EditEmployee() {
 
   return (
     <>
-      <Head>
-        <title>Detalhes</title>
-        <meta name="description" content="On job evaluation" />
-        <link rel="icon" href="public/favicon.ico" />
-      </Head>
+      <PageHead title={"Editar Formando"} />
 
       <main>
-
         <div>
           <h1>Detalhes de {employee?.name}</h1>
           <p>{sessionData && <span>{sessionData.user.email}</span>}</p>

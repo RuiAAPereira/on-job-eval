@@ -105,7 +105,6 @@ export const evaluationRouter = createTRPCRouter({
       };
     }),
 
-  // get all answers by employee id include questions and also return the average score
   getByEmployeeId: protectedProcedure
     .input(employeeId)
     .query(async ({ ctx, input }) => {
@@ -120,10 +119,12 @@ export const evaluationRouter = createTRPCRouter({
         include: {
           Answer: {
             select: {
+              id: true,
               score: true,
               question: {
                 select: {
                   name: true,
+                  description: true,
                 },
               },
             },
@@ -153,7 +154,8 @@ export const evaluationRouter = createTRPCRouter({
         averageScore,
         evaluations: evaluation.map(({ id, Answer }) => ({
           id,
-          answers: Answer.map(({ score, question }) => ({
+          answers: Answer.map(({ id, score, question }) => ({
+            id,
             score,
             question,
           })),

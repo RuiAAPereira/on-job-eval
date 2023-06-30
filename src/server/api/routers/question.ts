@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { questionName, questionDescription, categoryId } from "@/types";
 
 const questionInputSchema = z.object({
@@ -41,6 +45,61 @@ export const questionRouter = createTRPCRouter({
       }));
     }
   ),
+
+  questionsPaginationWithSearch: protectedProcedure
+    .input(
+      z.object({
+        skip: z.number(),
+        take: z.number(),
+        search: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const questions = await ctx.prisma.question.findMany({
+        where: {
+          name: {
+            contains: input.search,
+          },
+        },
+        skip: input.skip,
+        take: input.take,
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          category: {
+            name: "asc",
+          },
+        },
+      });
+
+      const totalQuestions = await ctx.prisma.question.count({
+        where: {
+          name: { contains: input.search },
+        },
+      });
+
+      const totalPages = Math.ceil(totalQuestions / input.take);
+      const currentPage = Math.floor(input.skip / input.take) + 1;
+
+      return {
+        questions: questions.map(({ id, name, description, category }) => ({
+          id,
+          name,
+          description,
+          categoryName: category.name,
+          categoryid: category.id,
+        })),
+        totalPages,
+        currentPage,
+        totalQuestions,
+      };
+    }),
 
   getCount: publicProcedure.query(async ({ ctx }) => {
     const count = await ctx.prisma.question.count();
@@ -86,6 +145,12 @@ export const questionRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.answer.deleteMany({
+        where: {
+          questionId: input,
+        },
+      });
+
       return ctx.prisma.question.delete({
         where: {
           id: input,

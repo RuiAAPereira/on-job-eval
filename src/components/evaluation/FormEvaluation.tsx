@@ -3,6 +3,8 @@ import { api } from "@/utils/api";
 import Answer from "./Answer";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import Loading from "../common/Loading";
+import Error404 from "../common/Error404";
 
 interface FormEvaluationProps {
   employeeId: string;
@@ -96,13 +98,9 @@ export default function FormEvaluation(props: FormEvaluationProps) {
     }));
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  if (isLoading) return <Loading />;
 
-  if (isError) {
-    return <p>Error</p>;
-  }
+  if (isError) return <Error404 />;
 
   return (
     <div className="col-span-2 rounded-lg bg-white p-8 shadow-xl">

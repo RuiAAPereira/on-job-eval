@@ -67,3 +67,10 @@ export type Category = {
   name: string;
   description: string | null;
 };
+
+export type Question = {
+  id: string;
+  name: string;
+  description: string | null;
+  categoryId: string;
+};

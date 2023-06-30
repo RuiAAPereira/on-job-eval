@@ -1,7 +1,9 @@
-import Head from "next/head";
 import { api } from "@/utils/api";
 import FormEvaluation from "@/components/evaluation/FormEvaluation";
 import Wrapper from "@/components/common/Wrapper";
+import Loading from "@/components/common/Loading";
+import PageHead from "@/components/layout/head";
+import Error404 from "@/components/common/Error404";
 
 export function getServerSideProps(context: {
   params: Record<string, unknown>;
@@ -26,21 +28,13 @@ export default function CreateEvaluation({ params }: EmployeeDetailsProps) {
     isLoading,
   } = api.employee.getById.useQuery(id);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <Loading />;
 
-  if (isError) {
-    return <div>Error</div>;
-  }
+ if (isError) return <Error404 />;
 
   return (
     <>
-      <Head>
-        <title>Avaliação</title>
-        <meta name="description" content="On job evaluation" />
-        <link rel="icon" href="public/favicon.ico" />
-      </Head>
+      <PageHead title={"Criar Avaliação"} />
 
       <Wrapper>
         <div className="relative mt-8 overflow-x-auto p-6 shadow-md sm:rounded-lg">
